@@ -13,6 +13,10 @@ public class Cubie : MonoBehaviour
     WallColor right;
     WallColor[] walls;
 
+    int wallF;
+    int wallR;
+    int wallU;
+
     private void Awake()
     {
         top = transform.Find("White") ? WallColor.White : WallColor.None;
@@ -22,6 +26,9 @@ public class Cubie : MonoBehaviour
         left = transform.Find("Green") ? WallColor.Green : WallColor.None;
         right = transform.Find("Blue") ? WallColor.Blue : WallColor.None;
         walls = new WallColor[] { top, bottom, front, back, left, right };
+
+        wallF = 2;
+        if()
     }
 
     public WallColor GetColor(WallPosition wallPosition)
