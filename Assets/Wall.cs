@@ -19,19 +19,27 @@ public class Wall : MonoBehaviour
 
     public void MakeMove(MoveDirection moveDirection, bool prim)
     {
-        RegisterToWall();
-        RotateWall(moveDirection, prim);
-        UnregisterFromWall();
-    }
-
-    void RegisterToWall()
-    {
+        var cubies = new List<Cubie>();
         foreach (var cubie in cube.GetCubies())
             if (cubie.CanRegisterToWall(wallType))
-                cubie.transform.SetParent(transform);
+                cubies.Add(cubie);
+
+        RegisterToWall(cubies);
+        RotateWall(prim);
+        if (cube.unregister)
+        {
+            UnregisterFromWall(cubies);
+            SaveMove(cubies, moveDirection);
+        }
     }
 
-    void RotateWall(MoveDirection moveDirection, bool prim)
+    void RegisterToWall(List<Cubie> cubies)
+    {
+        foreach (var cubie in cubies)
+            cubie.transform.SetParent(transform);
+    }
+
+    void RotateWall(bool prim)
     {
         switch (wallType)
         {
@@ -52,21 +60,18 @@ public class Wall : MonoBehaviour
                 break;
         }
 
-        var cubies = new List<Cubie>();
-        for (int i = 0; i < transform.childCount; i++)
-            cubies.Add(transform.GetChild(i).GetComponent<Cubie>());
-
-        foreach (var cubie in cubies)
-            cubie.MakeMove(moveDirection);
     }
 
-    void UnregisterFromWall()
+    void UnregisterFromWall(List<Cubie> cubies)
     {
-        var cubies = new List<Transform>();
-        for (int i = 0; i < transform.childCount; i++)
-            cubies.Add(transform.GetChild(i));
-
         foreach (var cubie in cubies)
-            cubie.SetParent(cube.GetFreeRoot());
+            cubie.transform.SetParent(cube.GetFreeRoot());
     }
+
+    void SaveMove(List<Cubie> cubies, MoveDirection moveDirection)
+    {
+        foreach (var cubie in cubies)
+            cubie.SaveMove(moveDirection);
+    }
+
 }

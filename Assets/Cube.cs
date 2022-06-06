@@ -5,6 +5,8 @@ using static Enums;
 
 public class Cube : MonoBehaviour
 {
+    public bool unregister = true;
+
     Wall F1;
     Wall F2;
     Wall F3;

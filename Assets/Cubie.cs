@@ -13,9 +13,9 @@ public class Cubie : MonoBehaviour
     WallColor right;
     WallColor[] walls;
 
-    int wallF; //need to be setted on makemove
-    int wallR;
-    int wallU;
+    public int wallF; //need to be setted on makemove
+    public int wallR;
+    public int wallU;
 
     private void Awake()
     {
@@ -27,23 +27,7 @@ public class Cubie : MonoBehaviour
         right = transform.Find("Blue") ? WallColor.Blue : WallColor.None;
         walls = new WallColor[] { top, bottom, front, back, left, right };
 
-        wallF = 2;
-        if (transform.localPosition.z < 0)
-            wallF = 1;
-        if (transform.localPosition.z > 0)
-            wallF = 3;
-
-        wallR = 2;
-        if (transform.localPosition.x < 0)
-            wallR = 1;
-        if (transform.localPosition.x > 0)
-            wallR = 3;
-
-        wallU = 2;
-        if (transform.localPosition.y < 0)
-            wallU = 3;
-        if (transform.localPosition.y > 0)
-            wallU = 1;
+        RefreshWalls();
     }
 
     public WallColor GetColor(WallPosition wallPosition)
@@ -51,7 +35,7 @@ public class Cubie : MonoBehaviour
         return walls[(int)wallPosition];
     }
 
-    public void MakeMove(MoveDirection moveDirection)
+    public void SaveMove(MoveDirection moveDirection)
     {
         switch (moveDirection)
         {
@@ -87,6 +71,8 @@ public class Cubie : MonoBehaviour
                 TransferWalls(WallPosition.Left, WallPosition.Bottom, WallPosition.Right, WallPosition.Top);
                 break;
         }
+
+        RefreshWalls();
     }
 
     void TransferWalls(WallPosition wall1, WallPosition wall2, WallPosition wall3, WallPosition wall4)
@@ -116,6 +102,27 @@ public class Cubie : MonoBehaviour
 
             default: return false;
         }
+    }
+
+    void RefreshWalls()
+    {
+        wallF = 2;
+        if (Mathf.Round(transform.localPosition.z) < 0)
+            wallF = 1;
+        if (Mathf.Round(transform.localPosition.z) > 0)
+            wallF = 3;
+
+        wallR = 2;
+        if (Mathf.Round(transform.localPosition.x) < 0)
+            wallR = 1;
+        if (Mathf.Round(transform.localPosition.x) > 0)
+            wallR = 3;
+
+        wallU = 2;
+        if (Mathf.Round(transform.localPosition.y) < 0)
+            wallU = 3;
+        if (Mathf.Round(transform.localPosition.y) > 0)
+            wallU = 1;
     }
 
 }
