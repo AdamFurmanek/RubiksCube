@@ -14,10 +14,16 @@ public class Enums
         Fp,
         B,
         Bp,
-        D,
-        Dp,
         U,
         Up,
+        D,
+        Dp,
+        RL,
+        RLp,
+        FB,
+        FBp,
+        UD,
+        UDp,
         None
     }
 
@@ -40,6 +46,20 @@ public class Enums
         Yellow,
         Blue,
         Green,
+        None
+    }
+
+    public enum WallType
+    {
+        F1,
+        F2,
+        F3,
+        U1,
+        U2,
+        U3,
+        R1,
+        R2,
+        R3,
         None
     }
 }
